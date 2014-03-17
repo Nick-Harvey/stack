@@ -9,7 +9,6 @@ gem 'mongoid', git: 'https://github.com/mongoid/mongoid.git'
 gem 'devise'
 gem 'httparty'
 gem 'haml-rails'
-gem "libv8", "3.11.8.13"
 gem "therubyracer", :require => 'v8'
 gem "less-rails"
 gem "twitter-bootstrap-rails"
