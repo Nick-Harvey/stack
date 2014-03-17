@@ -175,6 +175,7 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails
   less-rails
+  libv8
   mongoid!
   rails (= 4.0.3)
   rake

@@ -9,6 +9,7 @@ gem 'less-rails'
 gem 'devise'
 gem 'httparty'
 gem 'haml-rails'
+gem 'libv8'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
