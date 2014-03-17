@@ -1,0 +1,12 @@
+%h1 Listing stats
+
+%h2 Questions with no answers - Total #{@questions.count}
+%ul.left-panel
+  - @no_answer.each do |q|
+    %li
+      = link_to q.title, q.link
+
+%h2 Tags
+- @questions.each do |t|
+  = t.tag
+
