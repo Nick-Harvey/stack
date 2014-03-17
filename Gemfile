@@ -5,11 +5,10 @@ gem 'rails', '4.0.3'
 gem 'rake'
 gem 'mongoid', git: 'https://github.com/mongoid/mongoid.git'
 gem 'twitter-bootstrap-rails'
-#gem 'less-rails'
+gem 'less-rails'
 gem 'devise'
 gem 'httparty'
 gem 'haml-rails'
-#gem 'libv8'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -21,7 +20,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-#gem 'therubyracer', platforms: :ruby, git: "https://github.com/cowboyd/therubyracer.git"
+gem 'therubyracer', platforms: :ruby, git: "https://github.com/cowboyd/therubyracer.git"
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
