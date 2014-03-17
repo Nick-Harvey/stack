@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.0.3'
 gem 'rake'
 gem 'mongoid', git: 'https://github.com/mongoid/mongoid.git'
-gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
+#gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
 gem 'less-rails'
 gem 'devise'
 gem 'httparty'
@@ -20,7 +20,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  #gem 'therubyracer', platforms: :ruby, git: "https://github.com/cowboyd/therubyracer.git"
+  gem 'therubyracer', platforms: :ruby, git: "https://github.com/cowboyd/therubyracer.git"
 
 
 # Use jquery as the JavaScript library
@@ -35,11 +35,6 @@ gem 'jbuilder', '~> 1.2'
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
-end
-
-group :production do
-    gem 'libv8', '3.11.8.10'
-    gem 'therubyracer'
 end
 
 # Use ActiveModel has_secure_password
