@@ -172,6 +172,7 @@ DEPENDENCIES
   less-rails
   mongoid!
   rails (= 4.0.3)
+  rake
   sass-rails (~> 4.0.0)
   sdoc
   therubyracer
