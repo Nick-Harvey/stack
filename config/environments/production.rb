@@ -44,7 +44,7 @@ Stack::Application.configure do
 
   # Set to :debug to see everything in the log.
   config.log_level = :debug
-
+  Rails.logger.level = 5
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]
 
