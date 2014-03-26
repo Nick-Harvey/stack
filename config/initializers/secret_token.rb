@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Stack::Application.config.secret_key_base = '521ae9dbb598b00eca1a97a345885997a2e016d690379d7ef93daa14b9c8e63513d851f28afa0072a2840919fd0851d02c99d24d059d3da3f09f739ac6243035'
+Stack::Application.config.secret_key_base = '10e89e335618bd668a97ade1f53a02beda39989401a6b7925f29f9cb5d0d0271bd7b2d485814778613a7de8330c8e6b85f46be2d9fa1fcc49efc58d7ecaaef58'
