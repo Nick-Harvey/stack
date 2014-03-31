@@ -1,40 +1,25 @@
-%h1 Listing stats
+%h1 Line
 
-%h2 Questions with no answers - Total #{@no_answer.count}
+%h2 Questions with no answers - Total #{Question.no_answer.count}
 %ul.left-panel
-  - @no_answer.each do |q|
+  - Question.no_answer.each do |q|
     %li
       = link_to q.title, q.link
 
-%h2 Tags
-- @questions.each do |t|
-  = t.tag
+%h2 Top Ten Tags
+#content{style: "width:30%; height:300px;"}
+  .left.column
+    = pie_chart @tag_sort
 
-%h2 Chart
-#container{:style => "width:100%; height:400px;"}
-  :javascript
-    $(function () { 
-    $('#container').highcharts({
-      chart: {
-        type: 'bar'
-        },
-        title: {
-          text: 'Fruit Consumption'
-        },
-        xAxis: {
-          categories: ['Apples', 'Bananas', 'Oranges']
-        },
-        yAxis: {
-          title: {
-            text: 'Fruit eaten'
-            }
-        },
-        series: [{
-          name: 'Jane',
-            data: [1, 0, 4]
-        }, {
-          name: 'John',
-            data: [5, 7, 3]
-        }]
-    });
-});
+%h2 Highest Scored Questions
+- Question.q_highscore.each do |h|
+  %li
+    = h.score 
+    = link_to h.title, h.link
+
+%h2 Highest Scored Answers
+- @a_highscore.each do |a|
+  %li
+    = a
+
+ 

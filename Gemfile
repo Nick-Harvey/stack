@@ -7,6 +7,9 @@ gem 'mongoid', git: 'https://github.com/mongoid/mongoid.git'
 gem 'devise'
 gem 'httparty'
 gem 'haml-rails'
+gem 'chartkick'
+gem 'oauth2'
+gem 'groupdate'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'

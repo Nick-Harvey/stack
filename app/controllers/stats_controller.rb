@@ -1,15 +1,16 @@
 class StatsController < ApplicationController
   before_action :set_stat, only: [:show, :edit, :update, :destroy]
+  require 'groupdate'
 
   # GET /stats
   # GET /stats.json
   def index
+    #blacklist = ["openshift"]
     @stats = Stat.all
-    @questions = Question.all
-    @no_answer = Question.where(answer_count: "0")
+    @tag_sort = Question.tags.flatten.group_by{|i| i}.map{|k,v| [k, v.count] }.sort_by {|k,v| v}.reverse.first(10)
 
+    @a_highscore = Question.where(:'answers.items./d.score'.gte => 1)
   end
-
   # GET /stats/1
   # GET /stats/1.json
   def show
