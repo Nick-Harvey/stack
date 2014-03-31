@@ -50,6 +50,3 @@ end
 
 # Use debugger
 gem 'debugger', group: [:development, :test, :production]
-
-gem 'spork', :github => 'sporkrb/spork'
-gem 'spork-rails', :github => 'sporkrb/spork-rails'
