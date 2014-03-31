@@ -196,6 +196,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   debugger
   devise
+  execjs
   groupdate
   haml-rails
   httparty

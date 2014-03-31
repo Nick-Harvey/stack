@@ -10,6 +10,7 @@ gem 'haml-rails'
 gem 'chartkick'
 gem 'oauth2'
 gem 'groupdate'
+gem 'execjs'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
