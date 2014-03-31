@@ -7886,15 +7886,15 @@ table.datatable th:active {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 300;
-  src: font-url('/fonts/OpenSans-Light-webfont.eot');
-  src: font-url('/fonts/OpenSans-Light-webfont.eot?#iefix') format('embedded-opentype'), url('/fonts/OpenSans-Light-webfont.woff') format('woff'), url('../fonts/OpenSans-Light-webfont.ttf') format('truetype'), url('../fonts/OpenSans-Light-webfont.svg#OpenSansLight') format('svg');
+  src: url('/fonts/OpenSans-Light-webfont.eot');
+  src: url('/fonts/OpenSans-Light-webfont.eot?#iefix') format('embedded-opentype'), url('/fonts/OpenSans-Light-webfont.woff') format('woff'), url('../fonts/OpenSans-Light-webfont.ttf') format('truetype'), url('../fonts/OpenSans-Light-webfont.svg#OpenSansLight') format('svg');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  src: font-url('/fonts/OpenSans-Regular-webfont.eot');
-  src: font-url('/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'), font-url('/assets/fonts/OpenSans-Regular-webfont.woff') format('woff'), url('../fonts/OpenSans-Regular-webfont.ttf') format('truetype'), url('../fonts/OpenSans-Regular-webfont.svg#OpenSansRegular') format('svg');
+  src: url('/fonts/OpenSans-Regular-webfont.eot');
+  src: url('/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('/assets/fonts/OpenSans-Regular-webfont.woff') format('woff'), url('../fonts/OpenSans-Regular-webfont.ttf') format('truetype'), url('../fonts/OpenSans-Regular-webfont.svg#OpenSansRegular') format('svg');
 }
 @font-face {
   font-family: 'Open Sans';
