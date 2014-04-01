@@ -63,23 +63,24 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    response = HTTParty.get("http://api.stackexchange.com/2.2/questions?order=desc&sort=activity&tagged=openshift&site=stackoverflow&key=CtNgNzn5roqeORLJZ8ONGA((&client_id=2825")
+    #response = HTTParty.get("http://api.stackexchange.com/2.2/questions?order=desc&sort=activity&tagged=openshift&site=stackoverflow&key=CtNgNzn5roqeORLJZ8ONGA((&client_id=2825")
+    @response = HTTParty.get("http://api.stackexchange.com/2.2/questions?&pagesize=100&order=desc&sort=activity&tagged=openshift&site=stackoverflow&filter=!9WgJfigc4&key=CtNgNzn5roqeORLJZ8ONGA((&client_id=2825&run=true")
 
-    json_string = response.body
+    json_string = @response.body
     json_obj = JSON.parse(json_string)
 
     puts json_obj['items']
 
     json_obj['items'].each do |q|
-      answers = HTTParty.get("http://api.stackexchange.com/2.2/questions/#{q['question_id']}/answers?order=desc&sort=activity&site=stackoverflow&key=CtNgNzn5roqeORLJZ8ONGA((&client_id=2825")
+      #answers = HTTParty.get("http://api.stackexchange.com/2.2/questions/#{q['question_id']}/answers?order=desc&sort=activity&site=stackoverflow&key=CtNgNzn5roqeORLJZ8ONGA((&client_id=2825")
 
-      answer_string = answers.body
-      answer_obj = JSON.parse(answer_string)
+      #answer_string = answers.body
+      #answer_obj = JSON.parse(answer_string)
 
-      puts '******************'
-      puts answer_obj
+      #puts '******************'
+      #puts answer_obj
 
-      @question = Question.new(:tag => q['tags'], :owner => q['owner'], :answers => answer_obj, :is_answered => q['is_answered'], :view_count => q['view_count'], :answer_count => q['answer_count'], :score => q['score'], :last_activity_date => q['last_activity_date'], :creation_date => q['creation_date'], :last_edit_date => q['last_edit_date'], :question_id => q['question_id'], :link => q['link'], :title => q['title'])
+      @question = Question.new(:tag => q['tags'], :owner => q['owner'],:answers => q['answers'], :is_answered => q['is_answered'], :view_count => q['view_count'], :answer_count => q['answer_count'], :score => q['score'], :last_activity_date => q['last_activity_date'], :creation_date => q['creation_date'], :last_edit_date => q['last_edit_date'], :question_id => q['question_id'], :link => q['link'], :title => q['title'])
      @question.save
 
     end
@@ -87,7 +88,7 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       if @question.save
-        format.html { flash notice: 'Questions were successfully pulled.' }
+        format.html { redirect_to stats_url flash notice: 'Questions were successfully pulled.' }
         format.json { render action: 'show', status: :created, location: @question }
       else
         format.html { render action: 'new' }

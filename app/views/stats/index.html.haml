@@ -9,12 +9,12 @@
 %h2 Top Ten Tags
 #content{style: "width:30%; height:300px;"}
   .left.column
-    = pie_chart @tag_sort
+    = pie_chart @tag_sort, library: {backgroundColor: "#eee"}
 
 %h2 Highest Scored Questions
 - Question.q_highscore.each do |h|
   %li
-    = h.score 
+    = h.score
     = link_to h.title, h.link
 
 %h2 Highest Scored Answers
@@ -22,4 +22,7 @@
   %li
     = a
 
- 
+//%h2 Raw output - Total #{@response['items'].count}
+//- @response['items'].each do |a|
+//  %li
+//    = a

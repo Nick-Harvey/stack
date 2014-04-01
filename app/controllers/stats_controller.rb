@@ -10,6 +10,8 @@ class StatsController < ApplicationController
     @tag_sort = Question.tags.flatten.group_by{|i| i}.map{|k,v| [k, v.count] }.sort_by {|k,v| v}.reverse.first(10)
 
     @a_highscore = Question.where(:'answers.items./d.score'.gte => 1)
+
+    #@response = HTTParty.get("http://api.stackexchange.com/2.2/questions?&pagesize=100&order=desc&sort=activity&tagged=openshift&site=stackoverflow&filter=!9WgJfigc4&key=CtNgNzn5roqeORLJZ8ONGA((&client_id=2825&run=true")
   end
   # GET /stats/1
   # GET /stats/1.json
