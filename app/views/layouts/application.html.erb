@@ -8,58 +8,21 @@
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
   <%= javascript_include_tag "https://api.stackexchange.com/js/2.0/all.js" %>
+  <%= javascript_include_tag "jquery.scrollNav.min.js" %>
   <%= csrf_meta_tags %>
 </head>
-<body>
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-   <div class="container">
-      <div class="navbar-header">
-         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-         <span class="icon-bar"></span>
-         <span class="icon-bar"></span>
-         <span class="icon-bar"></span>
-         </button>
-         <a class="navbar-brand" id="logo" title="Openshift Community Stats" href="#">Openshift Community Stats</a>
-      </div>
-      <!-- end .navbar-header -->
-      <div class="navbar-collapse collapse">
-         <form class="navbar-form navbar-right" role="search" method="get" id="searchform" action="#">
-            <div class="form-group">
-               <input name="s" id="s" type="text" class="form-control placeholder" autocomplete="off" placeholder="Search" data-provide="typeahead" data-items="4" data-source="#">
-               <button type="submit" class="btn btn-default">Submit</button>
-            </div>
-            <!-- end .form-group -->
-         </form>
-         <ul class="nav navbar-nav navbar-right">
-            <li>
-               <a href="#">Log in</a>              
-            </li>
-         </ul>
-         <ul id="menu-primary" class="nav navbar-nav navbar-left">
-            <li id="menu-item-1438" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children dropdown">
-               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Stats<b class="caret"></b></a>
-               <ul class="dropdown-menu">
-                  <li id="menu-item-1587" class="menu-item menu-item-type-post_type menu-item-object-page"><a href="#">StackOverflow</a></li>
-                  <li id="menu-item-1588" class="menu-item menu-item-type-post_type menu-item-object-page"><a href="#">Github</a></li>
-                  <!--.dropdown-->
-               </ul>
-            </li>
-            <li id="menu-item-1434" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children dropdown">
-               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ambassador Program<b class="caret"></b></a>
-               <ul class="dropdown-menu">
-                  <li id="menu-item-1614" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="#">Overview</a></li>
-                  <li id="menu-item-1686" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children dropdown dropdown-submenu">
-                  <!--.dropdown-->
-               </ul>
-            </li>
-         </ul>
-      </div>
-      <!-- end .navbar-collapse -->
-   </div>
-   <!-- end .container -->
-</nav>
-
-<%= yield %>
-
-</body>
+	<body>
+		<%= render 'layouts/header' %>
+		<div class="container">
+			<% flash.each do |key, value| %>
+			<div class="alert alert-<%= key %>">
+				<%= value %>
+			</div>
+			<% end %>
+			<%= yield %>
+			<%= render 'layouts/footer'%>
+			<%= debug(params) if Rails.env.development? %>
+		</div>
+	</body>
 </html>
+	

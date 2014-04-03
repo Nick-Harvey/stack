@@ -1,5 +1,7 @@
 class Question
   include Mongoid::Document
+  include Mongoid::Timestamps
+
 
   field :tag,                   :type => Array
   field :owner,                 :type => Hash
@@ -8,7 +10,7 @@ class Question
   field :answer_count,          :type => Integer
   field :score,                 :type => Integer
   field :last_activity_date,    :type => Integer
-  field :creation_date,         :type => Integer
+  field :creation_date,         :type => DateTime
   field :last_edit_date,        :type => Integer
   field :question_id,           :type => Integer
   field :link,                  :type => String
@@ -32,7 +34,7 @@ class Question
   end
 
   def self.a_highscore
-    @a_highscore = Question.where("answers.\d.score".gte => 1)
+    @a_highscore = Question.where(:'answers.score'.gte => 1).sort{|t1,t2|t2.score <=> t1.score}
   end
 
 end

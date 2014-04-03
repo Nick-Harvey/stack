@@ -64,7 +64,7 @@ class QuestionsController < ApplicationController
 
   def show
     #response = HTTParty.get("http://api.stackexchange.com/2.2/questions?order=desc&sort=activity&tagged=openshift&site=stackoverflow&key=CtNgNzn5roqeORLJZ8ONGA((&client_id=2825")
-    @response = HTTParty.get("http://api.stackexchange.com/2.2/questions?&pagesize=100&order=desc&sort=activity&tagged=openshift&site=stackoverflow&filter=!9WgJfigc4&key=CtNgNzn5roqeORLJZ8ONGA((&client_id=2825&run=true")
+    @response = HTTParty.get("http://api.stackexchange.com/2.2/questions?pagesize=100&order=desc&sort=activity&tagged=openshift&site=stackoverflow&filter=!azbR8FUu4hw05X&key=CtNgNzn5roqeORLJZ8ONGA((&client_id=2825&run=true")
 
     json_string = @response.body
     json_obj = JSON.parse(json_string)
@@ -80,7 +80,7 @@ class QuestionsController < ApplicationController
       #puts '******************'
       #puts answer_obj
 
-      @question = Question.new(:tag => q['tags'], :owner => q['owner'],:answers => q['answers'], :is_answered => q['is_answered'], :view_count => q['view_count'], :answer_count => q['answer_count'], :score => q['score'], :last_activity_date => q['last_activity_date'], :creation_date => q['creation_date'], :last_edit_date => q['last_edit_date'], :question_id => q['question_id'], :link => q['link'], :title => q['title'])
+      @question = Question.new(:tag => q['tags'], :owner => q['owner'],:answers => q['answers'], :is_answered => q['is_answered'], :view_count => q['view_count'], :answer_count => q['answer_count'], :score => q['score'], :last_activity_date => q['last_activity_date'], :creation_date => Time.at(q['creation_date']):, :last_edit_date => q['last_edit_date'], :question_id => q['question_id'], :link => q['link'], :title => q['title'])
      @question.save
 
     end
