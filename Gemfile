@@ -12,7 +12,7 @@ gem 'oauth2'
 gem 'groupdate'
 gem 'execjs'
 gem "bson", "~> 2.2"
-gem "google_visualr"
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
