@@ -34,7 +34,7 @@
 .container-fluid
   .row
     .col-sm-3.col-md-2.sidebar
-      %nav.scroll-nav{role: "navigation"}
+      %nav.scroll-nav{role: "navigation", position: "fixed"}
         .scroll-nav__wrapper
       %span.scroll-nav__heading scrollNav
       %ol.scroll-nav__list
@@ -59,7 +59,9 @@
         %h2 Top Ten Tags
         #content{style: "width:auto; height:auto;"}
           = pie_chart @tag_sort, library: {backgroundColor: "#eee"}
-
+        %h2 Questions per Day (last 7 days)
+        #content{style: "width:auto; height:auto;"}
+          = line_chart @byweek
 
       %section#scrollNav-3.scroll-nav_section
         %h2 Highest Scored Questions
@@ -74,8 +76,3 @@
           %li
             = a.score
             = link_to a.link
-
-        /%h2 
-        /- Question.each do |q|
-        /  %li
-        /    = q.creation_date

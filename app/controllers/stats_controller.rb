@@ -8,10 +8,11 @@ class StatsController < ApplicationController
     #blacklist = ["openshift"]
     @stats = Stat.all
     @tag_sort = Question.tags.flatten.group_by{|i| i}.map{|k,v| [k, v.count] }.sort_by {|k,v| v}.reverse.first(10)
-    #@q_by_day = Questin
-    #@a_highscore = Question.where(:'answers.items./d.score'.gte => 1)
 
-    #@response = HTTParty.get("http://api.stackexchange.com/2.2/questions?&pagesize=100&order=desc&sort=activity&tagged=openshift&site=stackoverflow&filter=!9WgJfigc4&key=CtNgNzn5roqeORLJZ8ONGA((&client_id=2825&run=true")
+    @byweek = Question.week.map do |row|
+      ["#{row["_id"]}", "#{row["value"]["count"].to_i}"]
+    end
+
   end
   # GET /stats/1
   # GET /stats/1.json

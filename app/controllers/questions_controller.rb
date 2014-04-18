@@ -63,6 +63,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    require 'date'
     #response = HTTParty.get("http://api.stackexchange.com/2.2/questions?order=desc&sort=activity&tagged=openshift&site=stackoverflow&key=CtNgNzn5roqeORLJZ8ONGA((&client_id=2825")
     @response = HTTParty.get("http://api.stackexchange.com/2.2/questions?pagesize=100&order=desc&sort=activity&tagged=openshift&site=stackoverflow&filter=!azbR8FUu4hw05X&key=CtNgNzn5roqeORLJZ8ONGA((&client_id=2825&run=true")
 
@@ -80,7 +81,24 @@ class QuestionsController < ApplicationController
       #puts '******************'
       #puts answer_obj
 
-      @question = Question.new(:tag => q['tags'], :owner => q['owner'],:answers => q['answers'], :is_answered => q['is_answered'], :view_count => q['view_count'], :answer_count => q['answer_count'], :score => q['score'], :last_activity_date => q['last_activity_date'], :creation_date => Time.at(q['creation_date']), :last_edit_date => q['last_edit_date'], :question_id => q['question_id'], :link => q['link'], :title => q['title'])
+      @question = Question.new(
+        :tag => q['tags'],
+        :owner => q['owner'],
+        :answers => q['answers'],
+        :is_answered => q['is_answered'],
+        :view_count => q['view_count'],
+        :answer_count => q['answer_count'],
+        :score => q['score'],
+        :last_activity_date => q['last_activity_date'],
+        :creation_date => Time.at(q['creation_date']).to_datetime,
+        :simple_creation_date => Time.at(q['creation_date']).to_datetime.strftime("%F"),
+        #:simple_creation_date => DateTime.strptime((q['creation_date']).to_i.to_s,'%s').strftime("%m-%d-%Y"),
+        #Date.strptime((q['creation_date']), "%m-%d-%Y"),
+        :last_edit_date => q['last_edit_date'],
+        :question_id => q['question_id'],
+        :link => q['link'],
+        :title => q['title']
+      )
      @question.save
 
     end
