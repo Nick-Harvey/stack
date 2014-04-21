@@ -1,6 +1,7 @@
 Stack::Application.routes.draw do
-  resources :tests
+  resources :ambassadors
 
+  resources :tests
   resources :questions
 
   get 'questions/pull' => 'questions#pull'

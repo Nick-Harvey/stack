@@ -176,7 +176,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bson (~> 2.2)
   chartkick
   coffee-rails (~> 4.0.0)
   debugger

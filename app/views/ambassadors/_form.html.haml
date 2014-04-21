@@ -1,0 +1,16 @@
+= form_for @ambassador do |f|
+  - if @ambassador.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@ambassador.errors.count, "error")} prohibited this ambassador from being saved:"
+      %ul
+        - @ambassador.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :Name
+    = f.text_field :Name
+  .field
+    = f.label :Stack_Username
+    = f.text_field :Stack_Username
+  .actions
+    = f.submit 'Save'

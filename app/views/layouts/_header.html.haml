@@ -1,0 +1,33 @@
+%nav.navbar.navbar-default{role: "navigation"}
+  .container
+    .navbar-header
+      %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", type: "button"}
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      #logo.navbar-brand=link_to "Openshift Community Stats", root_path
+    / end .navbar-header
+    .navbar-collapse.collapse
+      %form#searchform.navbar-form.navbar-right{action: "#", method: "get", role: "search"}
+        .form-group
+          %input#s.form-control.placeholder{autocomplete: "off", "data-items" => "4", "data-provide" => "typeahead", "data-source" => "#", name: "s", placeholder: "Search", type: "text"}/
+          %button.btn.btn-default{type: "submit"} Submit
+        / end .form-group
+      %ul.nav.navbar-nav.navbar-right
+        %li
+          %a{href: "#"} Log in
+      %ul#menu-primary.nav.navbar-nav.navbar-left
+        %li#menu-item-1438.menu-item.menu-item-type-post_type.menu-item-object-page.menu-item-has-children.dropdown
+          %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+            Stats
+            %b.caret
+          %ul.dropdown-menu
+            %li#menu-item-1587.menu-item.menu-item-type-post_type.menu-item-object-page
+              %a{href: "#"} StackOverflow
+            %li#menu-item-1588.menu-item.menu-item-type-post_type.menu-item-object-page
+              %a{href: "#"} Github
+            / .dropdown
+        %li#menu-item-1434.menu-item.menu-item-type-post_type.menu-item-object-page.menu-item-has-children.dropdown
+          .dropdown-toggle{"data-toggle" => "dropdown"}
+          = link_to "Ambassador Program", ambassadors_path
+          %ul.dropdown-menu
