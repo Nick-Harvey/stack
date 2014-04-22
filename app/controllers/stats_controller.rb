@@ -5,9 +5,13 @@ class StatsController < ApplicationController
   # GET /stats
   # GET /stats.json
   def index
-    #blacklist = ["openshift"]
+    blacklist = ["openshift"]
     @stats = Stat.all
-    @tag_sort = Question.tags.flatten.group_by{|i| i}.map{|k,v| [k, v.count] }.sort_by {|k,v| v}.reverse.first(10)
+
+    tags = Question.tags.flatten
+    scrubbed = tags - blacklist
+
+    @tag_sort = scrubbed.group_by{|i| i}.map{|k,v| [k, v.count] }.sort_by {|k,v| v}.reverse.first(10)
 
     @byweek = Question.week.map do |row|
       ["#{row["_id"]}", "#{row["value"]["count"].to_i}"]
