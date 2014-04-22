@@ -34,18 +34,18 @@
 .container-fluid
   .row
     .col-sm-3.col-md-2.sidebar
-      %nav.scroll-nav{role: "navigation", position: "fixed"}
-        .scroll-nav__wrapper
-      %span.scroll-nav__heading scrollNav
-      %ol.scroll-nav__list
-        %li.scroll-nav__item.description.active.in-view
-          %a.scroll-nav__link{href: "#scrollNav-1"} Unanswered
-        %li.scroll-nav__item.features.in-view
-          %a.scroll-nav__link{href: "#scrollNav-2"} Top Tags
-        %li.scroll-nav__item.usage
-          %a.scroll-nav__link{href: "#scrollNav-3"} Higest Voted Questions
-        %li.scroll-nav__item.options
-          %a.scroll-nav__link{href: "#scrollNav-4"} Higest Voted Answers
+      %nav.scroll-nav{role: "navigation"}
+        .scroll-nav__wrapper{:style => "position: fixed; top: 60px"}
+          %span.scroll-nav__heading Scroll To
+          %ol.scroll-nav__list
+            %li.scroll-nav__item.description.active.in-view
+              %a.scroll-nav__link{href: "#scrollNav-1"} Unanswered
+            %li.scroll-nav__item.features.in-view
+              %a.scroll-nav__link{href: "#scrollNav-2"} Top Tags
+            %li.scroll-nav__item.usage
+              %a.scroll-nav__link{href: "#scrollNav-3"} Higest Voted Questions
+            %li.scroll-nav__item.options
+              %a.scroll-nav__link{href: "#scrollNav-4"} Higest Voted Answers
 
     .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
       %article.post__article
@@ -76,9 +76,3 @@
           %li
             = a.score
             = link_to a.link
-
-      %section#scrollNav-5.scroll-nav_section
-        %h2 Tags
-        = @scrubbed
-        -# - Question.tags.each do |t|
-        -#   = t
