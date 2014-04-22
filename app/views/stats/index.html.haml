@@ -1,23 +1,57 @@
-/:javascript
-/  $('.post__article').scrollNav({
-/    sections: 'h2',
-/    subSections: false,
-/    sectionElem: 'section',
-/    showHeadline: true,
-/    headlineText: 'Scroll To',
-/    showTopLink: true,
-/    topLinkText: 'Top',
-/    fixedMargin: 40,
-/    scrollOffset: 40,
-/    animated: true,
-/    speed: 500,
-/    insertTarget: this.selector,
-/    insertLocation: 'insertBefore',
-/    arrowKeys: false,
-/    onInit: null,
-/    onRender: null,
-/    onDestroy: null
-/  });
+.container-fluid
+  .row
+    .col-md-4.sidebar
+      %nav.scroll-nav{role: "navigation"}
+        .scroll-nav__wrapper.nav-box{:style => "position: fixed; top: 120px;"}
+          %h2.span.scroll-nav__heading.text-center Scroll To
+          %ol.scroll-nav__list
+            %h4
+              %li.scroll-nav__item.description.active.in-view
+                %a.scroll-nav__link{href: "#scrollNav-1"} Unanswered
+            %h4
+              %li.scroll-nav__item.features.in-view
+                %a.scroll-nav__link{href: "#scrollNav-2"} Top Tags
+            %h4
+              %li.scroll-nam__item.features.in-view
+                %a.scroll-nam__link{href: "#scrollNav-3"} Questions By Day
+            %h4
+              %li.scroll-nav__item.usage
+                %a.scroll-nav__link{href: "#scrollNav-4"} Higest Voted Questions
+            %h4
+              %li.scroll-nav__item.options
+                %a.scroll-nav__link{href: "#scrollNav-5"} Higest Scored Answers
+  .row
+    .col-md-9.col-md-push-3.main
+      %section#scrollNav-1.scroll-nav__section
+        %h2 Questions with no answers - Total #{Question.no_answer.count}
+        - Question.no_answer.each do |q|
+          %li
+            = link_to q.title, q.link
+
+      %section#scrollNav-2.scroll-nav__section
+        %h2 Top Ten Tags
+        #content{style: "width:auto; height:auto;"}
+          = pie_chart @tag_sort, library: {backgroundColor: "#eee"}
+      
+      %section#scrollNav-3.scroll-nav__section  
+        %h2 Questions per Day (last 7 days)
+        #content{style: "width:auto; height:auto;"}
+          = line_chart @byweek
+
+      %section#scrollNav-3.scroll-nav_section
+        %h2 Highest Voted Questions
+        - Question.q_highscore.each do |h|
+          %li
+            = h.score
+            = link_to h.title, h.link
+
+      %section#scrollNav-4.scroll-nav_section
+        %h2 Highest Scored Answers
+        - Question.a_highscore.each do |a|
+          %li
+            %stong= a.score
+            %a= link_to a.link
+
 :javascript
   $('.post__article').scrollNav({
   headlineText: 'scrollNav',
@@ -30,49 +64,3 @@
   $text = $(this).find('a').html().toLowerCase();
   $(this).addClass($text);
   });
-
-.container-fluid
-  .row
-    .col-sm-3.col-md-2.sidebar
-      %nav.scroll-nav{role: "navigation"}
-        .scroll-nav__wrapper{:style => "position: fixed; top: 60px"}
-          %span.scroll-nav__heading Scroll To
-          %ol.scroll-nav__list
-            %li.scroll-nav__item.description.active.in-view
-              %a.scroll-nav__link{href: "#scrollNav-1"} Unanswered
-            %li.scroll-nav__item.features.in-view
-              %a.scroll-nav__link{href: "#scrollNav-2"} Top Tags
-            %li.scroll-nav__item.usage
-              %a.scroll-nav__link{href: "#scrollNav-3"} Higest Voted Questions
-            %li.scroll-nav__item.options
-              %a.scroll-nav__link{href: "#scrollNav-4"} Higest Voted Answers
-
-    .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
-      %article.post__article
-        %section#scrollNav-1.scroll-nav__section
-          %h2 Questions with no answers - Total #{Question.no_answer.count}
-          - Question.no_answer.each do |q|
-            %li
-              = link_to q.title, q.link
-
-      %section#scrollNav-2.scroll-nav__section
-        %h2 Top Ten Tags
-        #content{style: "width:auto; height:auto;"}
-          = pie_chart @tag_sort, library: {backgroundColor: "#eee"}
-        %h2 Questions per Day (last 7 days)
-        #content{style: "width:auto; height:auto;"}
-          = line_chart @byweek
-
-      %section#scrollNav-3.scroll-nav_section
-        %h2 Highest Scored Questions
-        - Question.q_highscore.each do |h|
-          %li
-            = h.score
-            = link_to h.title, h.link
-
-      %section#scrollNav-4.scroll-nav_section
-        %h2 Highest Scored Answers
-        - Question.a_highscore.each do |a|
-          %li
-            = a.score
-            = link_to a.link
