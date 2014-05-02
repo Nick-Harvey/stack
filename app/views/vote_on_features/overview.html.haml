@@ -1,23 +1,45 @@
-%h2
-  %a{href: "https://www.openshift.com/content/please-provide-a-dns-server"} Please provide a DNS SERVER - Total 444
-%iframe{frameborder: "0", height: "371", scrolling: "no", seamless: "", src: "//docs.google.com/spreadsheets/d/1b3c63nliR0mua5eC4Hag6fxu2en2jF3YumAjZqXKzqw/gviz/chartiframe?oid=1497131640", width: "600"}
+.container-fluid
+  .row
+    .col-xs-8
+      .panel.panel-default
+        %h2.panel-heading.panel-title
+          %a{href: "https://www.openshift.com/content/please-provide-a-dns-server"} Please provide a DNS SERVER - Total 444
+        .panel-body
+          %h4 Votes over time 
+          %iframe{frameborder: "0", height: "371", scrolling: "no", seamless: "", src: "//docs.google.com/spreadsheets/d/1b3c63nliR0mua5eC4Hag6fxu2en2jF3YumAjZqXKzqw/gviz/chartiframe?oid=1497131640", width: "600"}
+        %h2.panel-footer Analysis:
+        %p.lead This would allow for the support of naked domains as well as create better app resiliency when a gear is moved to another node. That being said, in my opinion, I'm not sure the beneifits out way the costs and maintenance on this feature.
 
-%p Going through all those hoops and loops to just get a PaaS App working with naked domain and usable sub-domains is ridiculous. This specially gets more cumbersome with SSL and slows down the website quite significantly (consider redirect, another CNAME level and so forth) and is pretty time consuming to setup.
+  .row
+    .col-xs-8
+      .panel.panel-default
+        %h2.panel-heading.panel-title
+          %a{href: "https://www.openshift.com/content/international-hosting-options-all-aws-regions"} International hosting options - Total 330
+        .panel-body
+          %h4 Votes over time 
+          %iframe{frameborder: "0", height: "345", scrolling: "no", seamless: "", src: "//docs.google.com/spreadsheets/d/1b3c63nliR0mua5eC4Hag6fxu2en2jF3YumAjZqXKzqw/gviz/chartiframe?oid=1692152041", width: "600"}
+        %h2.panel-footer Analysis:
+        %p.lead While the amount of work that would need to be done is great, a datacenter in the EU could be worth the effort. Not only would it increase our buisness and users in the EU, but it would also increase performance for users who want to run a global site. Plus, it puts us in a direct competition to Heroku feature to select a region at app creation time. Lastly, due to some EU laws, users are not aloud to host certain user data outside the EU. Thus stopping them from hosting their application on Openshift.
 
-%h2
-  %a{href: "https://www.openshift.com/content/international-hosting-options-all-aws-regions"} International hosting options - Total 330
-%iframe{frameborder: "0", height: "345", scrolling: "no", seamless: "", src: "//docs.google.com/spreadsheets/d/1b3c63nliR0mua5eC4Hag6fxu2en2jF3YumAjZqXKzqw/gviz/chartiframe?oid=1692152041", width: "600"}
 
-%p Adding a Datacenter in the EU would greatly increase our presence in the EU. Not only would increase our buisness and users in the EU, but it would also increase performance for users who want to run a global buisness. Plus, it puts us in a direct competition to Heroku. 
+  .row
+    .col-xs-8
+      .panel.panel-default
+        %h2.panel-heading.panel-title
+          %a{href: "https://www.openshift.com/content/native-support-for-play-framework-application"} Native support for play framework application - Total 288
+        .panel-body
+          %h4 Votes over time
+          %iframe{frameborder: "0", height: "371", scrolling: "no", seamless: "", src: "//docs.google.com/spreadsheets/d/1b3c63nliR0mua5eC4Hag6fxu2en2jF3YumAjZqXKzqw/gviz/chartiframe?oid=947651177", width: "600"}
+        %h2.panel-footer Analysis:
+        %p.lead Adding native Play support would allow users to take advantage of support for asynchronous requests (something that linkedIn engineers found quite valuable).
 
-%h2
-  %a{href: "https://www.openshift.com/content/native-support-for-play-framework-application"} Native support for play framework application - Total 288
-%iframe{frameborder: "0", height: "371", scrolling: "no", seamless: "", src: "//docs.google.com/spreadsheets/d/1b3c63nliR0mua5eC4Hag6fxu2en2jF3YumAjZqXKzqw/gviz/chartiframe?oid=947651177", width: "600"}
-
-%p Adding native Play support would allow users to take advantage of support for asynchronous requests (something that linkedIn engineers found quite valuable).
-
-%h2
-  %a{href: "https://www.openshift.com/content/make-databases-scalable"} Make Database Scalable - Total 288
-%iframe{frameborder: "0", height: "371", scrolling: "no", seamless: "", src: "//docs.google.com/spreadsheets/d/1b3c63nliR0mua5eC4Hag6fxu2en2jF3YumAjZqXKzqw/gviz/chartiframe?oid=153633276", width: "600"}
-
-%p This is our achilles heel. This may not have as many votes as the others, but its our number one blocker for buisnesses choosing Openshift as their platform. 
+  .row
+    .col-xs-8
+      .panel.panel-default
+        %h2.panel-heading.panel-title
+          %a{href: "https://www.openshift.com/content/make-databases-scalable"} Make Database Scalable - Total 288
+        .panel-body
+          %h4 Votes over time
+          %iframe{frameborder: "0", height: "371", scrolling: "no", seamless: "", src: "//docs.google.com/spreadsheets/d/1b3c63nliR0mua5eC4Hag6fxu2en2jF3YumAjZqXKzqw/gviz/chartiframe?oid=153633276", width: "600"}
+        %h2.panel-footer Analysis:
+        %p.lead This is our achilles heel. This may not have as many votes as the others, but its our number one blocker for buisnesses choosing Openshift as their platform. 
