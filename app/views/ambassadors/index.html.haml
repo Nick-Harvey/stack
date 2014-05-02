@@ -1,5 +1,5 @@
 %h1 Listing ambassadors
-
+  
 %table.table.table-striped
   %tr
     %th Name
@@ -7,16 +7,31 @@
     %th Stack Answers
     %th
     %th
-
-  - @ambassadors.each do |ambassador|
-    %tr
-      %td= ambassador.Name
-      %td= ambassador.Stack_Username
-      %td= @stackcontrib.count
-      %td= link_to 'Show', ambassador
-      %td= link_to 'Edit', edit_ambassador_path(ambassador)
-      %td= link_to 'Destroy', ambassador, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
+  %tr
+    %th User1
+    %th StackUser1
+    %th 4
+  %tr
+    %th User2
+    %th StackUser2
+    %th 9
+  %tr
+    %th User3
+    %th StackUser3
+    %th 19
+  %tr
+    %th User4
+    %th StackUser4
+    %th 2
+  -# - Ambassador.stackcontrib.each do |ambassador|
+  -#   %tr
+  -#     %td= ambassador.name
+  -#     %td= ambassador.username
+  -#     %td= ambassador.count
+  -#     %td= link_to 'Show', ambassador
+  -#     %td= link_to 'Edit', edit_ambassador_path(ambassador)
+  -#     %td= link_to 'Destroy', ambassador, :method => :delete, :data => { :confirm => 'Are you sure?' }
+  
 %br
 
 = link_to 'New Ambassador', new_ambassador_path

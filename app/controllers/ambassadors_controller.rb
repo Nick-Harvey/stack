@@ -6,10 +6,7 @@ class AmbassadorsController < ApplicationController
   def index
     @ambassadors = Ambassador.all
 
-    contrib = Ambassador.each do |a|
-      @stackcontrib = Question.where(:'answers.owner.display_name' => a.Stack_Username)
-    end
-    #@stackcontrib = Question.where(:'answers.owner.display_name' => @ambassadors.Stack_Username)
+    #@stackcontrib = Question.where(:'answers.owner.display_name' => "#{@ambassadors.each {|u| u.Stack_Username}}")
 
   end
 

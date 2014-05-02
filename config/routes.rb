@@ -4,6 +4,8 @@ Stack::Application.routes.draw do
   resources :tests
   resources :questions
 
+  get 'vote_on_features/overview'
+
   get 'questions/pull' => 'questions#pull'
   resources :stats
 
