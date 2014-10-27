@@ -1,0 +1,66 @@
+.container-fluid
+  .row
+    .col-md-4.sidebar
+      %nav.scroll-nav{role: "navigation"}
+        .scroll-nav__wrapper.nav-box{:style => "position: fixed; top: 120px;"}
+          %h2.span.scroll-nav__heading.text-center Scroll To
+          %ol.scroll-nav__list
+            %h4
+              %li.scroll-nav__item.description.active.in-view
+                %a.scroll-nav__link{href: "#scrollNav-1"} Unanswered
+            %h4
+              %li.scroll-nav__item.features.in-view
+                %a.scroll-nav__link{href: "#scrollNav-2"} Top Tags
+            %h4
+              %li.scroll-nam__item.features.in-view
+                %a.scroll-nam__link{href: "#scrollNav-3"} Questions By Day
+            %h4
+              %li.scroll-nav__item.usage
+                %a.scroll-nav__link{href: "#scrollNav-4"} Higest Voted Questions
+            %h4
+              %li.scroll-nav__item.options
+                %a.scroll-nav__link{href: "#scrollNav-5"} Higest Scored Answers
+  .row
+    .col-md-9.col-md-push-3.main
+      %section#scrollNav-1.scroll-nav__section
+        %h2 Questions with no answers - Total #{Question.no_answer.count}
+        - Question.no_answer.each do |q|
+          %li
+            = link_to q.title, q.link
+
+      %section#scrollNav-2.scroll-nav__section
+        %h2 Top Ten Tags
+        #content{style: "width:auto; height:auto;"}
+          = pie_chart @tag_sort, library: {backgroundColor: "#eee"}
+      
+      %section#scrollNav-3.scroll-nav__section  
+        %h2 Questions per Day (last 7 days)
+        #content{style: "width:auto; height:auto;"}
+          = line_chart @byweek
+
+      %section#scrollNav-3.scroll-nav_section
+        %h2 Highest Voted Questions
+        - Question.q_highscore.each do |h|
+          %li
+            = h.score
+            = link_to h.title, h.link
+
+      %section#scrollNav-4.scroll-nav_section
+        %h2 Highest Scored Answers
+        - Question.a_highscore.each do |a|
+          %li
+            %stong= a.score
+            %a= link_to a.link
+
+:javascript
+  $('.post__article').scrollNav({
+  headlineText: 'scrollNav',
+  fixedMargin: 60,
+  scrollOffset: 80,
+  arrowKeys: true
+  });
+  var $item = $('.scroll-nav__item');
+  $.each($item, function(){
+  $text = $(this).find('a').html().toLowerCase();
+  $(this).addClass($text);
+  });

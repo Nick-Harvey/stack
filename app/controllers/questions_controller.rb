@@ -80,7 +80,26 @@ class QuestionsController < ApplicationController
 
       #puts '******************'
       #puts answer_obj
+      existingQuestion = Question.where(question_id: q["question_id"])
 
+      if existingQuestion == true
+      existingQuestion.update_attributes(
+        :tag => q['tags'],
+        :owner => q['owner'],
+        :answers => q['answers'],
+        :is_answered => q['is_answered'],
+        :view_count => q['view_count'],
+        :answer_count => q['answer_count'],
+        :score => q['score'],
+        :last_activity_date => q['last_activity_date'],
+        :creation_date => Time.at(q['creation_date']).to_datetime,
+        :simple_creation_date => Time.at(q['creation_date']).to_datetime.strftime("%F"),
+        :last_edit_date => q['last_edit_date'],
+        :question_id => q['question_id'],
+        :link => q['link'],
+        :title => q['title']
+        )
+    else
       @question = Question.new(
         :tag => q['tags'],
         :owner => q['owner'],
@@ -100,13 +119,14 @@ class QuestionsController < ApplicationController
         :title => q['title']
       )
      @question.save
+   end
 
     end
 
 
     respond_to do |format|
       if @question.save
-        format.html { redirect_to stats_url flash notice: 'Questions were successfully pulled.' }
+        format.html { redirect_to stats_url, notice: 'Questions were successfully pulled.' }
         format.json { render action: 'show', status: :created, location: @question }
       else
         format.html { render action: 'new' }

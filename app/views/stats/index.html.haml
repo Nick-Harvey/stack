@@ -1,66 +1,773 @@
-.container-fluid
-  .row
-    .col-md-4.sidebar
-      %nav.scroll-nav{role: "navigation"}
-        .scroll-nav__wrapper.nav-box{:style => "position: fixed; top: 120px;"}
-          %h2.span.scroll-nav__heading.text-center Scroll To
-          %ol.scroll-nav__list
-            %h4
-              %li.scroll-nav__item.description.active.in-view
-                %a.scroll-nav__link{href: "#scrollNav-1"} Unanswered
-            %h4
-              %li.scroll-nav__item.features.in-view
-                %a.scroll-nav__link{href: "#scrollNav-2"} Top Tags
-            %h4
-              %li.scroll-nam__item.features.in-view
-                %a.scroll-nam__link{href: "#scrollNav-3"} Questions By Day
-            %h4
-              %li.scroll-nav__item.usage
-                %a.scroll-nav__link{href: "#scrollNav-4"} Higest Voted Questions
-            %h4
-              %li.scroll-nav__item.options
-                %a.scroll-nav__link{href: "#scrollNav-5"} Higest Scored Answers
-  .row
-    .col-md-9.col-md-push-3.main
-      %section#scrollNav-1.scroll-nav__section
-        %h2 Questions with no answers - Total #{Question.no_answer.count}
-        - Question.no_answer.each do |q|
-          %li
-            = link_to q.title, q.link
-
-      %section#scrollNav-2.scroll-nav__section
-        %h2 Top Ten Tags
-        #content{style: "width:auto; height:auto;"}
-          = pie_chart @tag_sort, library: {backgroundColor: "#eee"}
-      
-      %section#scrollNav-3.scroll-nav__section  
-        %h2 Questions per Day (last 7 days)
-        #content{style: "width:auto; height:auto;"}
-          = line_chart @byweek
-
-      %section#scrollNav-3.scroll-nav_section
-        %h2 Highest Voted Questions
-        - Question.q_highscore.each do |h|
-          %li
-            = h.score
-            = link_to h.title, h.link
-
-      %section#scrollNav-4.scroll-nav_section
-        %h2 Highest Scored Answers
-        - Question.a_highscore.each do |a|
-          %li
-            %stong= a.score
-            %a= link_to a.link
-
-:javascript
-  $('.post__article').scrollNav({
-  headlineText: 'scrollNav',
-  fixedMargin: 60,
-  scrollOffset: 80,
-  arrowKeys: true
-  });
-  var $item = $('.scroll-nav__item');
-  $.each($item, function(){
-  $text = $(this).find('a').html().toLowerCase();
-  $(this).addClass($text);
-  });
+!!!
+%html{lang: "en"}
+  %head
+    %title StackStats - Dashboard
+    / BEGIN META
+    %meta{charset: "utf-8"}/
+    %meta{content: "width=device-width, initial-scale=1.0", name: "viewport"}/
+    %meta{content: "your,keywords", name: "keywords"}/
+    %meta{content: "Short explanation about this website", name: "description"}/
+    / END META
+    / BEGIN STYLESHEETS
+    %link{href: "http://fonts.googleapis.com/css?family=Open+Sans:400italic,300,400,600,700,800", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/assets/css/theme-default/bootstrap.css?1400695306", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/assets/css/theme-default/boostbox.css?1401297311", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/assets/css/theme-default/boostbox_responsive.css?1400695309", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/assets/css/theme-default/font-awesome.min.css?1400333030", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/assets/css/theme-default/libs/jquery-ui/jquery-ui-boostbox.css?1400695311", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/assets/css/theme-default/libs/fullcalendar/fullcalendar.css?1400695312", rel: "stylesheet", type: "text/css"}/
+    / END STYLESHEETS
+    / HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
+    /[if lt IE 9]
+      <script type="text/javascript" src="../../assets/js/libs/utils/html5shiv.js?1400333019"></script>
+      <script type="text/javascript" src="../../assets/js/libs/utils/respond.min.js?1400333017"></script>
+  %body.body-striped
+    / BEGIN HEADER
+    %header#header
+      / BEGIN NAVBAR
+      %nav.navbar.navbar-default{role: "navigation"}
+        / Brand and toggle get grouped for better mobile display
+        .navbar-header
+          %a.btn.btn-transparent.btn-equal.btn-menu{href: "javascript:void(0);"}
+            %i.fa.fa-bars.fa-lg
+          .navbar-brand
+            %a.main-brand{href: "../../html/dashboards/dashboard.html"}
+              %h3.text-light.text-white
+                %span
+                  Boost
+                  %strong Box
+                %i.fa.fa-rocket.fa-fw
+          / end .navbar-brand
+          %a.btn.btn-transparent.btn-equal.navbar-toggle{"data-target" => "#header-navbar-collapse", "data-toggle" => "collapse"}
+            %i.fa.fa-wrench.fa-lg
+        / Collect the nav links, forms, and other content for toggling
+        #header-navbar-collapse.collapse.navbar-collapse
+          %ul.nav.navbar-nav
+            %li
+              %a{href: "../../html/dashboards/dashboard.html"}
+                %i.fa.fa-home.fa-lg
+          / end .nav
+          %ul.nav.navbar-nav.navbar-right
+            %li.dropdown
+              %a.dropdown-toggle{"data-toggle" => "dropdown", href: "javascript:void(0);"}
+                %i.fa.fa-lg.fa-flask
+              %ul.dropdown-menu.animation-slide.theme-selector
+                %li.dropdown-header Themes
+                %li
+                  %a{href: "theme-default"} Theme default
+                %li
+                  %a{href: "theme-1"} Theme 1
+                %li
+                  %a{href: "theme-2"} Theme 2
+                %li
+                  %a{href: "theme-3"} Theme 3
+                %li
+                  %a{href: "theme-4"} Theme 4
+                %li
+                  %a{href: "theme-5"} Theme 5
+              / end .dropdown-menu
+            / end .dropdown
+            %li
+              %span.navbar-devider
+            %li.dropdown
+              %a.dropdown-toggle{"data-toggle" => "dropdown", href: "javascript:void(0);"}
+                %i.fa.fa-lg.fa-envelope
+                %sup.badge.badge-support2 2
+              %ul.dropdown-menu.animation-zoom
+                %li.dropdown-header Today's messages
+                %li
+                  %a.alert.alert-warning{href: "javascript:void(0);"}
+                    %img.pull-right.img-circle.dropdown-avatar{alt: "", src: "../../assets/img/avatar2.jpg?1400333014"}/
+                    %strong Alex Anistor
+                    %br/
+                    %small Testing functionality...
+                %li
+                  %a.alert.alert-info{href: "javascript:void(0);"}
+                    %img.pull-right.img-circle.dropdown-avatar{alt: "", src: "../../assets/img/avatar3.jpg?1400333021"}/
+                    %strong Alicia Adell
+                    %br/
+                    %small Reviewing last changes...
+                %li.dropdown-header Options
+                %li
+                  %a{href: "../../html/pages/login.html"}
+                    View all messages
+                    %span.pull-right
+                      %i.fa.fa-arrow-right
+                %li
+                  %a{href: "../../html/pages/login.html"}
+                    Mark as read
+                    %span.pull-right
+                      %i.fa.fa-arrow-right
+              / end .dropdown-menu
+            / end .dropdown
+            %li.dropdown
+              %a.dropdown-toggle{"data-toggle" => "dropdown", href: "javascript:void(0);"}
+                %i.fa.fa-lg.fa-dashboard
+              %ul.dropdown-menu.animation-dock
+                %li.dropdown-header Server load
+                %li.dropdown-progress
+                  %a{href: "javascript:void(0);"}
+                    .dropdown-label
+                      %span.text-light
+                        Server load
+                        %strong Today
+                      %strong.pull-right 93%
+                    .progress
+                      .progress-bar.progress-bar-danger{style: "width: 93%"}
+                / end .dropdown-progress
+                %li.dropdown-progress
+                  %a{href: "javascript:void(0);"}
+                    .dropdown-label
+                      %span.text-light
+                        Server load
+                        %strong Yesterday
+                      %strong.pull-right 30%
+                    .progress
+                      .progress-bar.progress-bar-success{style: "width: 30%"}
+                / end .dropdown-progress
+                %li.dropdown-progress
+                  %a{href: "javascript:void(0);"}
+                    .dropdown-label
+                      %span.text-light
+                        Server load
+                        %strong Lastweek
+                      %strong.pull-right 74%
+                    .progress
+                      .progress-bar.progress-bar-warning{style: "width: 74%"}
+                / end .dropdown-progress
+              / end .dropdown-menu
+            / end .dropdown
+            %li
+              %span.navbar-devider
+            %li.dropdown
+              %a.navbar-profile.dropdown-toggle.text-bold{"data-toggle" => "dropdown", href: "javascript:void(0);"}
+                Daniel Johnson
+                %i.fa.fa-fw.fa-angle-down
+                %img.img-circle{alt: "", src: "../../assets/img/avatar1.jpg?1401297311"}/
+              %ul.dropdown-menu.animation-slide
+                %li.dropdown-header Config
+                %li
+                  %a{href: "../../html/pages/profile.html"} My profile
+                %li
+                  %a{href: "../../html/pages/blog/post.html"}
+                    My blog
+                    %span.badge.badge-danger.pull-right 16
+                %li
+                  %a{href: "../../html/pages/calendar.html"} My appointments
+                %li.divider
+                %li
+                  %a{href: "../../html/pages/login.html"}
+                    %i.fa.fa-fw.fa-power-off.text-danger
+                    Logout
+              / end .dropdown-menu
+            / end .dropdown
+          / end .nav
+        / end #header-navbar-collapse
+      / END NAVBAR
+    / END HEADER
+    / BEGIN BASE
+    #base
+      / BEGIN SIDEBAR
+      #sidebar
+        .sidebar-back
+        .sidebar-content
+          .nav-brand
+            %a.main-brand{href: "../../html/dashboards/dashboard.html"}
+              %h3.text-light.text-white
+                %span
+                  Boost
+                  %strong Box
+                %i.fa.fa-rocket.fa-fw
+          / BEGIN MENU SEARCH
+          %form.sidebar-search{role: "search"}
+            %a{href: "javascript:void(0);"}
+              %i.fa.fa-search.fa-fw.search-icon
+              %i.fa.fa-angle-left.fa-fw.close-icon
+            .form-group
+              .input-group
+                %input.form-control.navbar-input{placeholder: "Search...", type: "text"}/
+                %span.input-group-btn
+                  %button.btn.btn-equal{type: "button"}
+                    %i.fa.fa-search
+          / END MENU SEARCH
+          / BEGIN MAIN MENU
+          %ul.main-menu
+            / Menu Dashboard
+            %li
+              %a.active{href: "../../html/dashboards/dashboard.html"}
+                %i.fa.fa-home.fa-fw
+                %span.title Dashboard
+            / end /menu-item
+            / Menu UI
+            %li
+              %a{href: "javascript:void(0);"}
+                %i.fa.fa-puzzle-piece.fa-fw
+                %span.title UI features
+                %span.expand-sign +
+              / start submenu
+              %ul
+                %li
+                  %a{href: "../../html/ui/boxes.html"} Boxes
+                %li
+                  %a{href: "../../html/ui/buttons.html"} Buttons
+                %li
+                  %a{href: "../../html/ui/grid.html"} Grid
+                %li
+                  %a{href: "../../html/ui/lists.html"} Lists
+                %li
+                  %a{href: "../../html/ui/tabs-accordions.html"} Tabs &amp; Accordions
+                %li
+                  %a{href: "../../html/ui/typography.html"} Typography
+                %li
+                  %a{href: "../../html/ui/icons.html"} Icons
+                %li
+                  %a{href: "../../html/ui/messages.html"} Messages
+              / end /submenu
+            / end /menu-item
+            / Menu Pages
+            %li
+              %a{href: "javascript:void(0);"}
+                %i.fa.fa-file.fa-fw
+                %span.title Pages
+                %span.expand-sign +
+              / start submenu
+              %ul
+                %li
+                  %a{href: "../../html/pages/profile.html"}
+                    User profile
+                    %span.badge 42
+                %li
+                  %a{href: "../../html/pages/invoice.html"} Invoice
+                %li
+                  %a{href: "../../html/pages/calendar.html"} Calendar
+                %li
+                  %a{href: "../../html/pages/pricing.html"} Pricing
+                %li
+                  %a{href: "javascript:void(0);"}
+                    %span.expand-sign +
+                    %span.title Blog
+                  / start submenu
+                  %ul
+                    %li
+                      %a{href: "../../html/pages/blog/masonry.html"} Blog masonry
+                    %li
+                      %a{href: "../../html/pages/blog/list.html"} Blog list
+                    %li
+                      %a{href: "../../html/pages/blog/post.html"} Blog post
+                  / end /submenu
+                / end /menu-item
+                %li
+                  %a{href: "../../html/pages/locked.html"} Lock screen
+                %li
+                  %a{href: "../../html/pages/login.html"} Login
+                %li
+                  %a{href: "javascript:void(0);"}
+                    %span.expand-sign +
+                    %span.title Error pages
+                  / start submenu
+                  %ul
+                    %li
+                      %a{href: "../../html/pages/404.html"} 404 page
+                    %li
+                      %a{href: "../../html/pages/500.html"} 500 page
+                  / end /submenu
+                / end /menu-item
+                %li
+                  %a{href: "../../html/pages/blank.html"} Blank page
+              / end /submenu
+            / end /menu-item
+            / Menu Tables
+            %li
+              %a{href: "javascript:void(0);"}
+                %i.fa.fa-th.fa-fw
+                %span.title Tables
+                %span.expand-sign +
+              / start submenu
+              %ul
+                %li
+                  %a{href: "../../html/tables/static.html"} Static Tables
+                %li
+                  %a{href: "../../html/tables/dynamic.html"} Dynamic Tables
+                %li
+                  %a{href: "../../html/tables/responsive.html"} Responsive Table
+              / end /submenu
+            / end /menu-item
+            / Menu Forms
+            %li
+              %a{href: "javascript:void(0);"}
+                %i.fa.fa-list.fa-fw
+                %span.title Forms
+                %span.expand-sign +
+              / start submenu
+              %ul
+                %li
+                  %a{href: "../../html/forms/layouts.html"} Form layouts
+                %li
+                  %a{href: "../../html/forms/components.html"} Form components
+                %li
+                  %a{href: "../../html/forms/editors.html"} Editors
+                %li
+                  %a{href: "../../html/forms/fileupload.html"} File upload
+                %li
+                  %a{href: "../../html/forms/validation.html"} Form validation
+                %li
+                  %a{href: "../../html/forms/wizard.html"} Form wizard
+              / end /submenu
+            / end /menu-item
+            / Menu Charts
+            %li
+              %a{href: "../../html/charts/chart.html"}
+                %i.fa.fa-bar-chart-o.fa-fw
+                %span.title Visual charts
+            / end /menu-item
+            / Menu Levels
+            %li
+              %a{href: "javascript:void(0);"}
+                %i.fa.fa-folder-open.fa-fw
+                %span.title Menu levels
+                %span.expand-sign +
+              / start submenu
+              %ul
+                %li
+                  %a{href: "#"}
+                    %span.title Item 1
+                %li
+                  %a{href: "#"}
+                    %span.title Item 1
+                %li
+                  %a{href: "javascript:void(0);"}
+                    %span.expand-sign +
+                    %span.title Open level 2
+                  / start submenu
+                  %ul
+                    %li
+                      %a{href: "#"}
+                        %span.title Item 2
+                    %li
+                      %a{href: "javascript:void(0);"}
+                        %span.expand-sign +
+                        %span.title Open level 3
+                      / start submenu
+                      %ul
+                        %li
+                          %a{href: "#"}
+                            %span.title Item 3
+                        %li
+                          %a{href: "#"}
+                            %span.title Item 3
+                        %li
+                          %a{href: "javascript:void(0);"}
+                            %span.expand-sign +
+                            %span.title Open level 4
+                          / start submenu
+                          %ul
+                            %li
+                              %a{href: "#"}
+                                %span.title Item 4
+                            %li
+                              %a{href: "javascript:void(0);"}
+                                %span.expand-sign +
+                                %span.title Open level 5
+                              / start submenu
+                              %ul
+                                %li
+                                  %a{href: "#"}
+                                    %span.title Item 5
+                                %li
+                                  %a{href: "#"}
+                                    %span.title Item 5
+                              / end /submenu
+                            / end /submenu-item
+                          / end /submenu
+                        / end /submenu-item
+                      / end /submenu
+                    / end /submenu-item
+                  / end /submenu
+                / end /submenu-item
+              / end /submenu
+            / end /menu-item
+          / end .main-menu
+          / END MAIN MENU
+      / end #sidebar
+      / END SIDEBAR
+      / BEGIN CONTENT
+      #content
+        %section
+          .section-header
+            %h3.text-standard
+              %i.fa.fa-fw.fa-arrow-circle-right.text-gray-light
+              Dashboard
+              %small Welcome Daniel Johnson
+          .section-body
+            .row
+              / BEGIN LINE CHART
+              .col-md-9
+                .box.style-primary
+                  .box-head
+                    %header
+                      %h3.text-light
+                        Site
+                        %strong visits
+                      %small.opacity-75 People who visited this site
+                    .tools.stick-top-right
+                      .btn-group.btn-group-transparent
+                        .btn-group
+                          %a.btn.btn-equal.btn-sm.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+                            %i.fa.fa-fw.fa-flask
+                          %ul.dropdown-menu.animation-dock.pull-right.menu-box-styling{role: "menu", style: "text-align: left;"}
+                            %li
+                              %a{"data-style" => "style-primary", href: "javascript:void(0);"} Style primary
+                            %li
+                              %a{"data-style" => "style-info", href: "javascript:void(0);"} Style info
+                            %li
+                              %a{"data-style" => "style-success", href: "javascript:void(0);"} Style success
+                            %li
+                              %a{"data-style" => "style-warning", href: "javascript:void(0);"} Style warning
+                            %li
+                              %a{"data-style" => "style-danger", href: "javascript:void(0);"} Style danger
+                            %li
+                              %a{"data-style" => "style-inverse", href: "javascript:void(0);"} Style inverse
+                            %li
+                              %a{"data-style" => "style-support1", href: "javascript:void(0);"} Style support 1
+                            %li
+                              %a{"data-style" => "style-support2", href: "javascript:void(0);"} Style support 2
+                            %li
+                              %a{"data-style" => "style-support3", href: "javascript:void(0);"} Style support 3
+                            %li
+                              %a{"data-style" => "style-support4", href: "javascript:void(0);"} Style support 4
+                            %li
+                              %a{"data-style" => "style-support5", href: "javascript:void(0);"} Style support 5
+                            %li
+                              %a{"data-style" => "style-support1-gradient", href: "javascript:void(0);"} Style support-gradient 1
+                            %li
+                              %a{"data-style" => "style-support2-gradient", href: "javascript:void(0);"} Style support-gradient 2
+                            %li
+                              %a{"data-style" => "style-support3-gradient", href: "javascript:void(0);"} Style support-gradient 3
+                            %li
+                              %a{"data-style" => "style-support4-gradient", href: "javascript:void(0);"} Style support-gradient 4
+                            %li
+                              %a{"data-style" => "style-support5-gradient", href: "javascript:void(0);"} Style support-gradient 5
+                            %li
+                              %a{"data-style" => "style-primary-gradient", href: "javascript:void(0);"} Style primary-gradient
+                        %a.btn.btn-equal.btn-sm.btn-refresh
+                          %i.fa.fa-refresh
+                        %a.btn.btn-equal.btn-sm.btn-collapse
+                          %i.fa.fa-angle-down
+                        %a.btn.btn-equal.btn-sm.btn-close
+                          %i.fa.fa-times
+                  .box-body
+                    #visitor-chart.flot.height-5{"data-color" => "#ffffff,#f8576c", "data-title" => "Site visits"}
+                  .box-body.style-body
+                    .col-sm-5
+                      .pie-chart.flot
+                        .chart.size-3.v-inline-middle{"data-color" => "#6bafbd,#f8576c", "data-title" => "Site visits"}
+                        .legend.v-inline-middle
+                    .col-sm-7
+                      %br/
+                      %br/
+                      .width-5.pull-right
+                        .pull-left
+                          %span.text-sm.text-muted My balans &#160;&#160;
+                          %br/
+                          %span.text-bold 33,896.50 &#160;&#160;
+                        %span.inlinesparkline{"data-bar-color" => "#6bafbd", "data-height" => "33", "data-type" => "bar"} 3,2,1,11,9,5,3,4,2,6,5,2,6,2
+                      .width-5.pull-right
+                        .pull-left
+                          %span.text-sm.text-muted New Orders &#160;&#160;
+                          %br/
+                          %span.text-bold 17,555 &#160;&#160;
+                        %span.inlinesparkline{"data-bar-color" => "#f8576c", "data-height" => "33", "data-type" => "bar"} 6,5,2,6,2,4,5,1,3,2,1,11,9,5
+                / end .box
+              / end .col-lg-6
+              / END LINE CHART
+              / BEGIN DONUT CHART
+              .col-md-3
+                .box.style-body.text-center
+                  .box-head
+                    %header
+                      %h3.text-light
+                        New
+                        %strong visits
+                      %small.text-gray-light Till next business event
+                    .tools.stick-top-right
+                      .btn-group.btn-group-transparent
+                        %a.btn.btn-equal.btn-sm.btn-collapse
+                          %i.fa.fa-angle-down
+                  .box-body
+                    .knob.knob-support3.knob-body-track.size-5
+                      %input.dial{"data-max" => "365", "data-min" => "0", "data-readonly" => "true", type: "text", value: "286"}/
+                  .box-body.style-support2.mask.height-3.text-left
+                    .bottom-layer
+                      %i.fa.fa-group.fa-10x.icon-tilt-alt.stick-top-right.opacity-25
+                    .top-layer
+                      %span.text-lg.text-bolder Total visits
+                      %br/
+                      %span Smaller text
+                  .box-head.style-body.no-padding
+                    .col-lg-4.text-gray-light
+                      %header
+                        %h4.text-bold 645
+                        %small Tweets
+                    .col-lg-4.text-gray-light
+                      %header
+                        %h4.text-bold 890
+                        %small Following
+                    .col-lg-4.text-gray-light
+                      %header
+                        %h4.text-bold 8745
+                        %small Followers
+                / end .box
+              / end .col-lg-3
+              / END DONUT CHART
+            / end .row
+          / end .section-body
+        %section
+          .section-body
+            .row
+              / BEGIN TODO LIST
+              .col-md-6
+                .box
+                  .box-head.box-head-lg
+                    %header
+                      %h3.text-light.text-support2
+                        Todo
+                        %strong list
+                    .tools.stick-top-right
+                      .btn-group
+                        %a.btn.btn-white
+                          %i.fa.fa-plus-circle.fa-fw
+                          Add task
+                  .box-body.no-padding
+                    %ul.list-tasks.list-group.list-support2
+                      %li.list-group-item
+                        .task-checkbox
+                          .btn.btn-checkbox-gray-inverse.active{"data-toggle" => "buttons"}
+                            %input{type: "checkbox"}/
+                        .task-body
+                          %i.fa.fa-phone
+                          %span Call clients for follow-up
+                      %li.list-group-item
+                        .task-checkbox
+                          .btn.btn-checkbox-gray-inverse{"data-toggle" => "buttons"}
+                            %input{type: "checkbox"}/
+                        .task-body
+                          %i.fa.fa-calendar-o
+                          %span Schedule meeting
+                      %li.list-group-item
+                        .task-checkbox
+                          .btn.btn-checkbox-gray-inverse{"data-toggle" => "buttons"}
+                            %input{type: "checkbox"}/
+                        .task-body
+                          %span Upload files to server
+                      %li.list-group-item
+                        .task-checkbox
+                          .btn.btn-checkbox-gray-inverse{"data-toggle" => "buttons"}
+                            %input{type: "checkbox"}/
+                        .task-body
+                          %span Book flight for holiday
+                          %span.label.label-light 2 weeks
+                      %li.list-group-item
+                        .task-checkbox
+                          .btn.btn-checkbox-gray-inverse{"data-toggle" => "buttons"}
+                            %input{type: "checkbox"}/
+                        .task-body
+                          %i.fa.fa-truck
+                          %span Recieve shipment
+                          %span.label.label-danger Today
+                      %li.list-group-item
+                        .task-checkbox
+                          .btn.btn-checkbox-gray-inverse{"data-toggle" => "buttons"}
+                            %input{type: "checkbox"}/
+                        .task-body
+                          %span Go to concert
+                  / end .box-body
+                / end .box
+              / end .col-lg-3
+              / END TODO LIST
+              / BEGIN TABBAR
+              .col-md-6
+                .box.tabs-below
+                  .box-body.no-padding.tab-content
+                    #tab-sales.tab-pane.force-padding.style-support5
+                      #sales-chart.flot.height-5{"data-title" => "Prdouct sales"}
+                    #pane-birthdays.tab-pane.force-padding.active
+                      #carousel-example-captions.carousel.slide{"data-ride" => "carousel"}
+                        .carousel-inner
+                          .item.active
+                            .row
+                              .col-md-5.text-center
+                                %img.img-circle{alt: "", src: "../../assets/img/avatar1.jpg?1401297311"}/
+                              .col-md-7
+                                %p.text-support5
+                                  %span.text-xl.text-bold Daniel Johnson
+                                  %br/
+                                %ul.list-unstyled.list-extra-spacing
+                                  %li
+                                    %span.fa-stack.text-support1
+                                      %i.fa.fa-circle.fa-stack-2x
+                                      %i.fa.fa-gift.fa-stack-1x.fa-inverse
+                                    %span.text-sm January 15, 1976
+                                  %li
+                                    %span.fa-stack.text-support1
+                                      %i.fa.fa-circle.fa-stack-2x
+                                      %i.fa.fa-location-arrow.fa-stack-1x.fa-inverse
+                                    %span.text-sm 621 Johnson Ave, San Francisco
+                                  %li
+                                    %span.fa-stack.text-support1
+                                      %i.fa.fa-circle.fa-stack-2x
+                                      %i.fa.fa-envelope.fa-stack-1x.fa-inverse
+                                    %span.text-sm danieljohnson@boostbox.com
+                          .item
+                            .row
+                              .col-md-5.text-center
+                                %img.img-circle{alt: "", src: "../../assets/img/avatar2.jpg?1400333014"}/
+                              .col-md-7
+                                %p.text-support5
+                                  %span.text-xl.text-bold Laurie Hart
+                                  %br/
+                                %ul.list-unstyled.list-extra-spacing
+                                  %li
+                                    %span.fa-stack.text-support5
+                                      %i.fa.fa-circle.fa-stack-2x
+                                      %i.fa.fa-gift.fa-stack-1x.fa-inverse
+                                    %span.text-sm January 15, 1976
+                                  %li
+                                    %span.fa-stack.text-support5
+                                      %i.fa.fa-circle.fa-stack-2x
+                                      %i.fa.fa-location-arrow.fa-stack-1x.fa-inverse
+                                    %span.text-sm 12 Lauri Ave, San Francisco
+                                  %li
+                                    %span.fa-stack.text-support5
+                                      %i.fa.fa-circle.fa-stack-2x
+                                      %i.fa.fa-envelope.fa-stack-1x.fa-inverse
+                                    %span.text-sm lauriehart@boostbox.com
+                          .item
+                            .row
+                              .col-md-5.text-center
+                                %img.img-circle{alt: "", src: "../../assets/img/avatar3.jpg?1400333021"}/
+                              .col-md-7
+                                %p.text-support5
+                                  %span.text-xl.text-bold Jacob Thornton
+                                  %br/
+                                %ul.list-unstyled.list-extra-spacing
+                                  %li
+                                    %span.fa-stack.text-support3
+                                      %i.fa.fa-circle.fa-stack-2x
+                                      %i.fa.fa-gift.fa-stack-1x.fa-inverse
+                                    %span.text-sm January 15, 1976
+                                  %li
+                                    %span.fa-stack.text-support3
+                                      %i.fa.fa-circle.fa-stack-2x
+                                      %i.fa.fa-location-arrow.fa-stack-1x.fa-inverse
+                                    %span.text-sm 7 Jacob Ave, San Francisco
+                                  %li
+                                    %span.fa-stack.text-support3
+                                      %i.fa.fa-circle.fa-stack-2x
+                                      %i.fa.fa-envelope.fa-stack-1x.fa-inverse
+                                    %span.text-sm jacobthornton@boostbox.com
+                        %a.left.carousel-control{"data-slide" => "prev", href: "#carousel-example-captions"}
+                          %span.glyphicon.glyphicon-chevron-left
+                        %a.right.carousel-control{"data-slide" => "next", href: "#carousel-example-captions"}
+                          %span.glyphicon.glyphicon-chevron-right
+                    #pane-image.tab-pane.height-6.force-padding
+                      .img-backdrop{style: "background-image: url('../../assets/img/img1.jpg')"}
+                      .holder
+                        %h2.text-light.text-white
+                          Full-sized
+                          %strong backdrop image
+                  %ul.box-head.nav.nav-tabs.nav-justified.style-support5{"data-toggle" => "tabs"}
+                    %li
+                      %a{href: "#tab-sales"}
+                        %span.text-xl 1282
+                        = succeed "Sales" do
+                          %br/
+                    %li.active
+                      %a{href: "#pane-birthdays"}
+                        %span.text-xl 3
+                        = succeed "Birthdays" do
+                          %br/
+                    %li
+                      %a{href: "#pane-image"}
+                        %span.text-xl 31
+                        = succeed "Images" do
+                          %br/
+              / END TABBAR
+            / end .row
+            .row
+              / BEGIN CALENDAR
+              .col-lg-12
+                .box.box-tiles.style-support3
+                  .row
+                    .col-md-3
+                      .box-body-darken.small-padding.style-support3
+                        .btn-group{"data-toggle" => "buttons"}
+                          %label.btn.btn-sm.btn-support3.active
+                            %input{name: "calendarMode", type: "radio", value: "month"}>/
+                            Month
+                          %label.btn.btn-sm.btn-support3
+                            %input{name: "calendarMode", type: "radio", value: "agendaWeek"}>/
+                            Week
+                          %label.btn.btn-sm.btn-support3
+                            %input{name: "calendarMode", type: "radio", value: "agendaDay"}>/
+                            Day
+                        .btn-group.pull-right
+                          %button#calender-prev.btn.btn-sm.btn-equal.btn-support3{type: "button"}
+                            %i.fa.fa-chevron-left
+                          %button#calender-next.btn.btn-sm.btn-equal.btn-support3{type: "button"}
+                            %i.fa.fa-chevron-right
+                      .force-padding
+                        %h1.text-light.selected-day &#160;
+                        %h3.text-light.selected-date &#160;
+                        %br/
+                        %br/
+                        %ul.list-events.list-group
+                          %li.list-group-header
+                            %h4.text-light
+                              %i.fa.fa-plus-circle.fa-fw
+                              Draggable events
+                          %li.list-group-item
+                            %span Call clients for follow-up
+                          %li.list-group-item
+                            %span Schedule meeting
+                          %li.list-group-item
+                            %span Upload files to server
+                          %li.list-group-item
+                            %span Book flight for holiday
+                    / end .col-md-3
+                    .col-md-9.style-white
+                      #calendar
+                    / end .col-md-9
+                  / end .row
+                / end .box
+              / end .col-lg-12
+              / END CALENDAR
+            / end .row
+          / end .section-body
+      / end #content
+      / END CONTENT
+    / end #base
+    / END BASE
+    / BEGIN JAVASCRIPT
+    /[if lte IE 8]
+      <script src="../../assets/js/libs/excanvas-modified/excanvas.min.js"></script>
+    %script{src: "../../assets/js/libs/jquery/jquery-1.11.0.min.js"}
+    %script{src: "../../assets/js/libs/jquery/jquery-migrate-1.2.1.min.js"}
+    %script{src: "../../assets/js/libs/jquery-ui/jquery-ui-1.10.3.custom.min.js"}
+    %script{src: "../../assets/js/core/BootstrapFixed.js"}
+    %script{src: "../../assets/js/libs/bootstrap/bootstrap.min.js"}
+    %script{src: "../../assets/js/libs/spin.js/spin.min.js"}
+    %script{src: "../../assets/js/libs/moment/moment.min.js"}
+    %script{src: "../../assets/js/libs/flot/jquery.flot.min.js"}
+    %script{src: "../../assets/js/libs/flot/jquery.flot.time.min.js"}
+    %script{src: "../../assets/js/libs/flot/jquery.flot.resize.min.js"}
+    %script{src: "../../assets/js/libs/flot/jquery.flot.orderBars.js"}
+    %script{src: "../../assets/js/libs/flot/jquery.flot.pie.js"}
+    %script{src: "../../assets/js/libs/jquery-knob/jquery.knob.js"}
+    %script{src: "../../assets/js/libs/sparkline/jquery.sparkline.min.js"}
+    %script{src: "../../assets/js/libs/slimscroll/jquery.slimscroll.min.js"}
+    %script{src: "../../assets/js/libs/fullcalendar/fullcalendar.min.js"}
+    %script{src: "../../assets/js/core/demo/DemoCharts.js"}
+    %script{src: "../../assets/js/core/demo/DemoDashboard.js"}
+    %script{src: "../../assets/js/core/App.js"}
+    %script{src: "../../assets/js/core/demo/Demo.js"}
+    / END JAVASCRIPT

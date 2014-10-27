@@ -1,30 +1,30 @@
-%nav.navbar.navbar-default.navbar-pf{role: "navigation"}
-  .navbar-header
-    %button.navbar-toggle{"data-target" => ".navbar-collapse-1", "data-toggle" => "collapse", type: "button"}
-      %span.sr-only Toggle navigation
-      %span.icon-bar
-      %span.icon-bar
-      %span.icon-bar
-    %a.navbar-brand{href: "https://stack2-niharvey.rhcloud.com"}
-      =image_tag "LogoLarge.png"
-      //%img{alt: "Openshift Community Stats", src: "LogoLarge.png"}/
-  / end .navbar-header
-  .collapse.navbar-collapse.navbar-collapse-1
-    %ul.nav.navbar-nav.navbar-utility
-      %li
-        = link_to "Login", "#"
-      %li.dropdown
-        %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
-          %span.pficon.pficon-user
-          = current_user
-          %b.caret
-      %ul.dropdown-menu
-        %li
-          = link_to "stuff", "#"
-    %ul.nav.navbar-nav.navbar-primary
-      %li.active
-        = link_to "Dashboard", stats_path
-      %li
-        = link_to "Ambassador", ambassadors_path
-      %li
-        = link_to "Vote on Features",   vote_on_features_overview_path
+!!!
+%html{lang: "en"}
+  %head
+    %title Stackstats
+    / BEGIN META
+    %meta{charset: "utf-8"}/
+    %meta{content: "IE=edge", "http-equiv" => "X-UA-Compatible"}/
+    %meta{content: "width=device-width, initial-scale=1.0", name: "viewport"}/
+    %meta{content: "your,keywords", name: "keywords"}/
+    %meta{content: "Short explanation about this website", name: "description"}/
+    / BEGIN STYLESHEETS
+    %link{href: "http://fonts.googleapis.com/css?family=Open+Sans:400italic,300,400,600,700,800", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/assets/css/theme-default/bootstrap.css", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/assets/css/theme-default/boostbox.css", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/assets/css/theme-default/boostbox_responsive.css", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/assets/css/theme-default/font-awesome.min.css", rel: "stylesheet", type: "text/css"}/
+    / Additional CSS includes
+    / HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
+    /[if lt IE 9]
+      <script type="text/javascript" src="/assets/js/libs/utils/html5shiv.js"></script>
+      <script type="text/javascript" src="/assets/js/libs/utils/respond.min.js"></script>
+  %body
+    / BEGIN JAVASCRIPT
+    %script{src: "/assets/js/libs/jquery/jquery-1.11.0.min.js"}
+    %script{src: "/assets/js/libs/jquery/jquery-migrate-1.2.1.min.js"}
+    %script{src: "/assets/js/core/BootstrapFixed.js"}
+    %script{src: "/assets/js/libs/bootstrap/bootstrap.min.js"}
+    / Additional JS includes
+    / Always put App.js last in your javascript imports
+    %script{src: "/assets/js/core/App.js"}
